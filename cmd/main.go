@@ -3,15 +3,20 @@ package main
 import (
 	"image"
 	"image/color"
+	"image/draw"
 	"image/png"
 	"os"
 )
 
 func main() {
-	data := []int{10, 33, 73, 64}
+	data := []int{100, 33, 73, 64}
 	w, h := len(data)*60+10, 100
+
 	r := image.Rect(0, 0, w, h)
 	img := image.NewRGBA(r)
+	grey := image.NewUniform(color.RGBA{240, 240, 240, 255})
+	blue := image.NewUniform(color.RGBA{180, 180, 250, 255})
+	draw.Draw(img, img.Bounds(), grey, image.Point{0, 0}, draw.Src)
 
 	// for y := range h {
 	// 	for x := range w {
@@ -24,13 +29,18 @@ func main() {
 	// 	}
 	// }
 
-	for y := range h {
-		for x := range w {
-			img.Set(x, y, color.RGBA{255, 255, 255, 255})
-		}
-	}
+	// for y := range h {
+	// 	for x := range w {
+	// 		img.Set(x, y, color.RGBA{255, 255, 255, 255})
+	// 	}
+	// }
 
 	for i, dp := range data {
+		x0, y0 := (i*60 + 10), 100-dp
+		x1, y1 := (i+1)*60-1, 100
+		r := image.Rect(x0, y0, x1, y1)
+		draw.Draw(img, r, blue, image.Point{0, 0}, draw.Src)
+
 		for x := i*60 + 10; x < i*60+60; x++ {
 			for y := 100; y >= (100 - dp); y-- {
 				img.Set(x, y, color.RGBA{180, 180, 250, 255})
