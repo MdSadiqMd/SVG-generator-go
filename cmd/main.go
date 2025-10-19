@@ -8,18 +8,33 @@ import (
 )
 
 func main() {
-	w, h := 500, 150
+	data := []int{10, 33, 73, 64}
+	w, h := len(data)*60+10, 100
 	r := image.Rect(0, 0, w, h)
 	img := image.NewRGBA(r)
 
+	// for y := range h {
+	// 	for x := range w {
+	// 		img.Set(x, y, color.RGBA{
+	// 			R: uint8((x + y) & 255),
+	// 			G: uint8((x + y) << 1 & 255),
+	// 			B: uint8((x + y) << 1 & 255),
+	// 			A: 255,
+	// 		})
+	// 	}
+	// }
+
 	for y := range h {
 		for x := range w {
-			img.Set(x, y, color.RGBA{
-				R: uint8((x + y) & 255),
-				G: uint8((x + y) << 1 & 255),
-				B: uint8((x + y) << 1 & 255),
-				A: 255,
-			})
+			img.Set(x, y, color.RGBA{255, 255, 255, 255})
+		}
+	}
+
+	for i, dp := range data {
+		for x := i*60 + 10; x < i*60+60; x++ {
+			for y := 100; y >= (100 - dp); y-- {
+				img.Set(x, y, color.RGBA{180, 180, 250, 255})
+			}
 		}
 	}
 
